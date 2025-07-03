@@ -32,15 +32,13 @@
    python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 ALU.v Branch_Comp.v DMEM.v IMEM.v Imm_Gen.v RISCV_Single_Cycle.v RegisterFile.v control_unit.v
    ```
 
- **Pass criteria:**
- 
-=======
-🎉 All memory contents match golden output! All tests passed.
-=======
+**Pass criteria:**
+
+> 🎉 All memory contents match golden output! All tests passed.
 
 If there are errors/mismatches, check the detailed log at:
 
-/tmp/grade_<tên_user>/sim.log
+> /tmp/grade_<tên_user>/sim.log
 
 ## 🛠️ Module Descriptions
 
