@@ -1,3 +1,7 @@
+
+markdown
+Sao chép
+Chỉnh sửa
 # RISC-V Single Cycle Processor (Verilog)
 
 **Đồ án bộ xử lý RISC-V 1 chu kỳ, pass toàn bộ test SC1 & SC2 trên hệ thống chấm điểm tự động CA_Lab-2025 (UET, Đại học Công nghệ).**
@@ -33,14 +37,21 @@ python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 ALU.v Branch_Com
 
 Kết quả Pass khi xuất hiện dòng:
 
+sql
+Sao chép
+Chỉnh sửa
 🎉 All memory contents match golden output! All tests passed.
-
 Nếu có lỗi/mismatch, kiểm tra file log chi tiết tại:
 
+bash
+Sao chép
+Chỉnh sửa
 /tmp/grade_<tên_user>/sim.log
-
 🛠️ Mô tả module
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1636204e4642486e103922fa4b93f11b09fdc730
 ALU.v
 Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn (signed & unsigned).
 
@@ -64,7 +75,6 @@ RISCV_Single_Cycle.v
 Kết nối toàn bộ datapath + control.
 
 🏆 Đặc điểm nổi bật
-
 Hỗ trợ đầy đủ các lệnh cơ bản RV32I (R/I/S/B-type).
 
 Hoạt động đúng chuẩn, pass toàn bộ test trường.
@@ -72,12 +82,16 @@ Hoạt động đúng chuẩn, pass toàn bộ test trường.
 Tách module chuyên nghiệp, dễ mở rộng thành pipeline/FPGA/SoC.
 
 📈 Datapath tổng quát
-
+rust
+Sao chép
+Chỉnh sửa
 Instruction -->[IMEM]-->[Control + ImmGen + RegFile + ALU + DMEM]--> Kết quả
-
 📚 Mở rộng / Tuỳ biến
-
 Có thể mở rộng thêm JAL, JALR, LUI, AUIPC nếu cần.
 
+<<<<<<< HEAD
 Có thể dùng làm nền tảng cho project CPU pipeline, FPGA, mô phỏng cao hơn.
 
+=======
+Có thể dùng làm nền tảng cho project CPU pipeline, FPGA, mô phỏng cao hơn
+>>>>>>> 1636204e4642486e103922fa4b93f11b09fdc730
