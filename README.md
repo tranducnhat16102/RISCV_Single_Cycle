@@ -32,10 +32,8 @@ python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc1 ALU.v Branch_Com
 python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 ALU.v Branch_Comp.v DMEM.v IMEM.v Imm_Gen.v RISCV_Single_Cycle.v RegisterFile.v control_unit.v
 Kết quả Pass khi xuất hiện dòng:
 
-sql
-Sao chép
-Chỉnh sửa
 🎉 All memory contents match golden output! All tests passed.
+
 Nếu có lỗi/mismatch, kiểm tra file log chi tiết tại:
 
 /tmp/grade_<tên_user>/sim.log
