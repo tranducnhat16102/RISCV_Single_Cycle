@@ -11,6 +11,7 @@ module control_unit(
     output reg RegWrite
 );
     always @* begin
+        // Default values
         ALUSrc   = 0;
         ALUOp    = 4'b0000;
         Branch   = 0;
@@ -39,7 +40,7 @@ module control_unit(
                     default:              ALUOp = 4'b0000;
                 endcase
             end
-            7'b0010011: begin // I-type
+            7'b0010011: begin // I-type (addi, slti, andi, ori, xori, slli, srli, srai)
                 ALUSrc   = 1;
                 MemToReg = 0;
                 RegWrite = 1;
@@ -52,6 +53,15 @@ module control_unit(
                     3'b110: ALUOp = 4'b0011; // ori
                     3'b100: ALUOp = 4'b0100; // xori
                     3'b010: ALUOp = 4'b1000; // slti
+                    3'b001: ALUOp = 4'b0101; // slli
+                    3'b101: begin
+                        if (funct7 == 7'b0000000)
+                            ALUOp = 4'b0110; // srli
+                        else if (funct7 == 7'b0100000)
+                            ALUOp = 4'b0111; // srai
+                        else
+                            ALUOp = 4'b0000;
+                    end
                     default: ALUOp = 4'b0000;
                 endcase
             end
@@ -73,14 +83,14 @@ module control_unit(
                 Branch   = 0;
                 ALUOp    = 4'b0000;
             end
-            7'b1100011: begin // beq, bne
+            7'b1100011: begin // beq, bne, ...
                 ALUSrc   = 0;
                 MemToReg = 0;
                 RegWrite = 0;
                 MemRead  = 0;
                 MemWrite = 0;
                 Branch   = 1;
-                ALUOp    = 4'b0001; // sub
+                ALUOp    = 4'b0001; // sub for comparison
             end
             default: begin
                 ALUSrc   = 0;
