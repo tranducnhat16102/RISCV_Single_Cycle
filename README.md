@@ -72,7 +72,6 @@ Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn
 - **Branch_Comp.v**
   - Handles branch conditions: equal, not equal, less than, greater than (signed/unsigned).
 
-<<<<<<< HEAD
 - **RISCV_Single_Cycle.v**
   - Integrates all datapath and control modules.
 
@@ -103,10 +102,4 @@ Instruction --> [IMEM] --> [Control + ImmGen + RegFile + ALU + DMEM] --> Result
 - Can be extended to support JAL, JALR, LUI, AUIPC, etc.
 - Suitable as a foundation for pipeline CPU, FPGA, or higher-level simulation projects.
 
-📈 Datapath tổng quát
-
-
-Instruction -->[IMEM]-->[Control + ImmGen + RegFile + ALU + DMEM]--> Kết quả
-📚 Mở rộng / Tuỳ biến
-Có thể mở rộng thêm JAL, JALR, LUI, AUIPC nếu cần.
 
