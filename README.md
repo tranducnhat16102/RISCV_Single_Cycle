@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RISC-V Single Cycle CPU - Lab Project
 
 ## 1. Mục tiêu
@@ -117,3 +118,7 @@ Code template đã hỗ trợ lệnh cơ bản (add, sub, and, or, lw, sw, beq, 
 Có thể mở rộng thêm lệnh nếu test yêu cầu.
 
 Nếu dùng Icarus hoặc Verilator gặp lỗi với output array, cần sửa lại interface thành từng phần tử hoặc dùng generate.
+=======
+# RISCV_Single_Cycle
+RISCV_Single_Cycle
+
