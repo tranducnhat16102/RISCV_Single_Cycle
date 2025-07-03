@@ -16,6 +16,7 @@ module ALU(
             4'b0110: Result = A >> B[4:0]; // SRL, SRLI
             4'b0111: Result = $signed(A) >>> B[4:0]; // SRA, SRAI
             4'b1000: Result = ($signed(A) < $signed(B)) ? 1 : 0; // SLT, SLTI
+            4'b1001: Result = (A < B) ? 1 : 0;                   // SLTU, SLTIU
             default: Result = 0;
         endcase
     end

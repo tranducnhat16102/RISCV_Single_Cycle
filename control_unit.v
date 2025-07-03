@@ -37,10 +37,11 @@ module control_unit(
                     {7'b0000000,3'b101}: ALUOp = 4'b0110; // srl
                     {7'b0100000,3'b101}: ALUOp = 4'b0111; // sra
                     {7'b0000000,3'b010}: ALUOp = 4'b1000; // slt
+                    {7'b0000000,3'b011}: ALUOp = 4'b1001; // sltu   <--- Thêm dòng này!
                     default:              ALUOp = 4'b0000;
                 endcase
             end
-            7'b0010011: begin // I-type (addi, slti, andi, ori, xori, slli, srli, srai)
+            7'b0010011: begin // I-type (addi, slti, sltiu, andi, ori, xori, slli, srli, srai)
                 ALUSrc   = 1;
                 MemToReg = 0;
                 RegWrite = 1;
@@ -53,6 +54,7 @@ module control_unit(
                     3'b110: ALUOp = 4'b0011; // ori
                     3'b100: ALUOp = 4'b0100; // xori
                     3'b010: ALUOp = 4'b1000; // slti
+                    3'b011: ALUOp = 4'b1001; // sltiu   <--- Thêm dòng này!
                     3'b001: ALUOp = 4'b0101; // slli
                     3'b101: begin
                         if (funct7 == 7'b0000000)
