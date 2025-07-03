@@ -32,27 +32,17 @@
    python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 ALU.v Branch_Comp.v DMEM.v IMEM.v Imm_Gen.v RISCV_Single_Cycle.v RegisterFile.v control_unit.v
    ```
 
-   **Pass criteria:**
-   > 🎉 All memory contents match golden output! All tests passed.
-
-   If there are errors/mismatches, check the detailed log at:
-   - `/tmp/grade_<username>/sim.log`
-
----
-
-## 🛠️ Module Descriptions
+ **Pass criteria:**
+ 
 =======
 🎉 All memory contents match golden output! All tests passed.
 =======
 
-Nếu có lỗi/mismatch, kiểm tra file log chi tiết tại:
+If there are errors/mismatches, check the detailed log at:
 
 /tmp/grade_<tên_user>/sim.log
 
-🛠️ Mô tả module
-
-ALU.v
-Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn (signed & unsigned).
+## 🛠️ Module Descriptions
 
 - **ALU.v**
   - Performs arithmetic, logic, shift, and comparison operations (signed & unsigned).
@@ -75,12 +65,6 @@ Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn
 
 - **RISCV_Single_Cycle.v**
   - Integrates all datapath and control modules.
-
-🏆 Đặc điểm nổi bật
-
-Hỗ trợ đầy đủ các lệnh cơ bản RV32I (R/I/S/B-type).
-
----
 
 ## 🏆 Key Features
 
