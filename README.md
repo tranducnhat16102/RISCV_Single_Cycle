@@ -35,12 +35,25 @@
    **Pass criteria:**
    > 🎉 All memory contents match golden output! All tests passed.
 
+<<<<<<< HEAD
    If there are errors/mismatches, check the detailed log at:
    - `/tmp/grade_<username>/sim.log`
 
 ---
 
 ## 🛠️ Module Descriptions
+=======
+🎉 All memory contents match golden output! All tests passed.
+
+Nếu có lỗi/mismatch, kiểm tra file log chi tiết tại:
+
+/tmp/grade_<tên_user>/sim.log
+
+🛠️ Mô tả module
+
+ALU.v
+Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn (signed & unsigned).
+>>>>>>> 205e85554f72d4cc1aaa76ef261c732e975d5d9e
 
 - **ALU.v**
   - Performs arithmetic, logic, shift, and comparison operations (signed & unsigned).
@@ -61,13 +74,20 @@
 - **Branch_Comp.v**
   - Handles branch conditions: equal, not equal, less than, greater than (signed/unsigned).
 
+<<<<<<< HEAD
 - **RISCV_Single_Cycle.v**
   - Integrates all datapath and control modules.
+=======
+🏆 Đặc điểm nổi bật
+
+Hỗ trợ đầy đủ các lệnh cơ bản RV32I (R/I/S/B-type).
+>>>>>>> 205e85554f72d4cc1aaa76ef261c732e975d5d9e
 
 ---
 
 ## 🏆 Key Features
 
+<<<<<<< HEAD
 - Full support for basic RV32I instructions (R/I/S/B-type)
 - Passes all official test cases
 - Modular design, easy to extend to pipeline/FPGA/SoC
@@ -86,3 +106,11 @@ Instruction --> [IMEM] --> [Control + ImmGen + RegFile + ALU + DMEM] --> Result
 
 - Can be extended to support JAL, JALR, LUI, AUIPC, etc.
 - Suitable as a foundation for pipeline CPU, FPGA, or higher-level simulation projects.
+=======
+📈 Datapath tổng quát
+
+
+Instruction -->[IMEM]-->[Control + ImmGen + RegFile + ALU + DMEM]--> Kết quả
+📚 Mở rộng / Tuỳ biến
+Có thể mở rộng thêm JAL, JALR, LUI, AUIPC nếu cần.
+>>>>>>> 205e85554f72d4cc1aaa76ef261c732e975d5d9e
