@@ -40,6 +40,7 @@ Nếu có lỗi/mismatch, kiểm tra file log chi tiết tại:
 /tmp/grade_<tên_user>/sim.log
 
 🛠️ Mô tả module
+
 ALU.v
 Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn (signed & unsigned).
 
@@ -63,6 +64,7 @@ RISCV_Single_Cycle.v
 Kết nối toàn bộ datapath + control.
 
 🏆 Đặc điểm nổi bật
+
 Hỗ trợ đầy đủ các lệnh cơ bản RV32I (R/I/S/B-type).
 
 Hoạt động đúng chuẩn, pass toàn bộ test trường.
