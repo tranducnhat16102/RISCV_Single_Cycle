@@ -28,6 +28,7 @@ module RISCV_Single_Cycle(
     wire ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, PCSel;
     wire [3:0] ALUCtrl;
 
+    // PC update
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n)
             PC_out_top <= 0;
@@ -35,14 +36,13 @@ module RISCV_Single_Cycle(
             PC_out_top <= PC_next;
     end
 
-    // Instruction Memory
-    wire [31:0] imem_memory [0:255];
+    // Instruction Memory (KHÔNG truyền port memory!)
     IMEM IMEM_inst(
         .addr(PC_out_top),
-        .Instruction(Instruction_out_top),
-        .memory(imem_memory)
+        .Instruction(Instruction_out_top)
     );
 
+    // Instruction field decoding
     assign opcode = Instruction_out_top[6:0];
     assign rd     = Instruction_out_top[11:7];
     assign funct3 = Instruction_out_top[14:12];
@@ -50,12 +50,13 @@ module RISCV_Single_Cycle(
     assign rs2    = Instruction_out_top[24:20];
     assign funct7 = Instruction_out_top[31:25];
 
+    // Immediate generator
     Imm_Gen imm_gen(
         .inst(Instruction_out_top),
         .imm_out(Imm)
     );
 
-    wire [31:0] regfile_memory [0:31];
+    // Register File (KHÔNG truyền port registers!)
     RegisterFile Reg_inst(
         .clk(clk),
         .rst_n(rst_n),
@@ -65,12 +66,13 @@ module RISCV_Single_Cycle(
         .rd(rd),
         .WriteData(WriteData),
         .ReadData1(ReadData1),
-        .ReadData2(ReadData2),
-        .registers(regfile_memory)
+        .ReadData2(ReadData2)
     );
 
+    // ALU input selection
     assign ALU_in2 = (ALUSrc) ? Imm : ReadData2;
 
+    // ALU
     ALU alu(
         .A(ReadData1),
         .B(ALU_in2),
@@ -79,7 +81,7 @@ module RISCV_Single_Cycle(
         .Zero(ALUZero)
     );
 
-    wire [31:0] dmem_memory [0:255];
+    // Data Memory (KHÔNG truyền port memory!)
     DMEM DMEM_inst(
         .clk(clk),
         .rst_n(rst_n),
@@ -87,12 +89,13 @@ module RISCV_Single_Cycle(
         .MemWrite(MemWrite),
         .addr(ALU_result),
         .WriteData(ReadData2),
-        .ReadData(MemReadData),
-        .memory(dmem_memory)
+        .ReadData(MemReadData)
     );
 
+    // Write-back mux
     assign WriteData = (MemToReg) ? MemReadData : ALU_result;
 
+    // Control unit
     control_unit ctrl(
         .opcode(opcode),
         .funct3(funct3),
@@ -106,6 +109,7 @@ module RISCV_Single_Cycle(
         .RegWrite(RegWrite)
     );
 
+    // Branch comparator
     Branch_Comp comp(
         .A(ReadData1),
         .B(ReadData2),
@@ -114,6 +118,7 @@ module RISCV_Single_Cycle(
         .BrTaken(PCSel)
     );
 
+    // Next PC logic (Imm đã chuẩn với B-type, J-type)
     assign PC_next = (PCSel) ? PC_out_top + Imm : PC_out_top + 4;
 
 endmodule
