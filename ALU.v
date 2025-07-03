@@ -7,15 +7,15 @@ module ALU(
 );
     always @* begin
         case (ALUOp)
-            4'b0000: Result = A + B;    // ADD
-            4'b0001: Result = A - B;    // SUB
-            4'b0010: Result = A & B;    // AND
-            4'b0011: Result = A | B;    // OR
-            4'b0100: Result = A ^ B;    // XOR
-            4'b0101: Result = A << B[4:0]; // SLL
-            4'b0110: Result = A >> B[4:0]; // SRL
-            4'b0111: Result = $signed(A) >>> B[4:0]; // SRA
-            4'b1000: Result = (A < B) ? 1 : 0; // SLT
+            4'b0000: Result = A + B;    // ADD, ADDI, LW, SW
+            4'b0001: Result = A - B;    // SUB, Branch
+            4'b0010: Result = A & B;    // AND, ANDI
+            4'b0011: Result = A | B;    // OR, ORI
+            4'b0100: Result = A ^ B;    // XOR, XORI
+            4'b0101: Result = A << B[4:0]; // SLL, SLLI
+            4'b0110: Result = A >> B[4:0]; // SRL, SRLI
+            4'b0111: Result = $signed(A) >>> B[4:0]; // SRA, SRAI
+            4'b1000: Result = ($signed(A) < $signed(B)) ? 1 : 0; // SLT, SLTI
             default: Result = 0;
         endcase
     end
