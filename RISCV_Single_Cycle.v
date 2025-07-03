@@ -114,7 +114,6 @@ module RISCV_Single_Cycle(
         .BrTaken(PCSel)
     );
 
-    // Đảm bảo Imm đúng dạng offset (cộng vào PC), đã dịch trái 1 bit trong Imm_Gen rồi.
     assign PC_next = (PCSel) ? PC_out_top + Imm : PC_out_top + 4;
 
 endmodule
