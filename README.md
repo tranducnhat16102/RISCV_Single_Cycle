@@ -1,124 +1,90 @@
-<<<<<<< HEAD
-# RISC-V Single Cycle CPU - Lab Project
+# RISC-V Single Cycle Processor (Verilog)
 
-## 1. Mục tiêu
+**Đồ án bộ xử lý RISC-V 1 chu kỳ, pass toàn bộ test SC1 & SC2 trên hệ thống chấm điểm tự động CA_Lab-2025 (UET, Đại học Công nghệ).**
 
-- Thiết kế và mô phỏng bộ xử lý **RISC-V Single Cycle** có thể chạy **testbench tự động** (`tb_RISCV_sc2`) kiểm tra thanh ghi, PC và bộ nhớ qua từng chu kỳ.
-- Chuẩn theo bài Lab kiến trúc máy tính/RISC-V cơ bản.
+---
 
-## 2. Cấu trúc file
+## 📁 Cấu trúc file
 
-.
-├── RISCV_Single_Cycle.sv # Top-level CPU
-├── RegisterFile.sv # Thanh ghi
-├── DMEM.sv # Bộ nhớ dữ liệu
-├── IMEM.sv # Bộ nhớ lệnh
-├── Imm_Gen.sv # Sinh tức thì
-├── ALU.sv # Khối tính toán
-├── control_unit.sv # Giải mã điều khiển
-├── Branch_Comp.sv # So sánh nhánh
-├── mem/ # Thư mục chứa file hex (imem2.hex, dmem_init2.hex, ...)
-└── README.md # File này
+- `RISCV_Single_Cycle.v` : Top module CPU
+- `ALU.v`                : Khối ALU (toán học, logic, shift, slt/sltu)
+- `Branch_Comp.v`        : So sánh điều kiện nhánh
+- `DMEM.v`               : Bộ nhớ dữ liệu (256 word)
+- `IMEM.v`               : Bộ nhớ lệnh (256 word)
+- `Imm_Gen.v`            : Sinh giá trị Immediate
+- `RegisterFile.v`       : Bộ thanh ghi (32 x 32bit)
+- `control_unit.v`       : Giải mã điều khiển
 
-shell
-Sao chép
-Chỉnh sửa
+---
 
-## 3. Cách biên dịch & mô phỏng
+## 🚀 Hướng dẫn build & test
 
-**Ví dụ với ModelSim hoặc Icarus/Verilator:**
+**1. Chuẩn bị thư mục chứa toàn bộ các file .v bên trên.**
+
+**2. Đảm bảo có đủ các file dữ liệu test:**
+- SC1: `./mem/imem.hex`, `./mem/dmem_init.hex`, `./mem/golden_output.txt`
+- SC2: `./mem/imem2.hex`, `./mem/dmem_init2.hex`, `./mem/golden_output2.txt`
+
+**3. Chạy lệnh test trên server:**
 
 ```bash
-# ModelSim (SystemVerilog)
-vlog *.sv
-vsim tb_RISCV_sc2
-
-# Icarus Verilog (nếu không dùng output array)
-iverilog -g2012 *.sv tb_RISCV_sc2.sv -o cpu_tb
-vvp cpu_tb
-Chú ý:
-
-Testbench tự động sẽ gọi $readmemh để load file imem2.hex và dmem_init2.hex vào IMEM và DMEM.
-
-Kiểm tra kết quả bằng so sánh với file golden_output2.txt.
-
-4. Giải thích kết nối & interface
-RISCV_Single_Cycle là module top, chỉ nhận clk, rst_n, xuất ra PC_out_top, Instruction_out_top.
-
-Các module con phải có instance đúng tên:
-
-Reg_inst (register file), xuất ra registers [0:31]
-
-DMEM_inst (data memory), xuất ra memory [0:255]
-
-IMEM_inst (instruction memory), xuất ra memory [0:255]
-
-Các array này để testbench truy cập kiểm tra giá trị qua từng chu kỳ.
-
-Luồng dữ liệu cơ bản:
-PC lấy lệnh từ IMEM.
-
-Giải mã trường rs1, rs2, rd, các immediate.
-
-Đọc giá trị từ RegisterFile.
-
-ALU thực thi phép toán.
-
-Truy cập DMEM nếu là lệnh load/store.
-
-Kết quả ghi lại RegisterFile.
-
-Cập nhật PC (PC+4 hoặc PC+imm nếu nhánh/jump).
-
-5. Giải thích các module
-IMEM/DMEM:
-
-Mảng 256 ô, 32-bit, truy cập word-address.
-
-Testbench load dữ liệu bằng $readmemh.
-
-RegisterFile:
-
-32 thanh ghi x0-x31, x0 luôn bằng 0.
-
-Imm_Gen:
-
-Sinh immediate theo loại lệnh (I, S, B, J).
-
-ALU:
-
-Thực hiện các phép toán số học và logic.
-
-control_unit:
-
-Giải mã opcode, funct3, funct7 ra control signals.
-
-Branch_Comp:
-
-So sánh nhánh, quyết định update PC.
-
-6. Câu lệnh kiểm tra kết quả
-Nếu chạy đúng, testbench sẽ báo:
+python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc1 ALU.v Branch_Comp.v DMEM.v IMEM.v Imm_Gen.v RISCV_Single_Cycle.v RegisterFile.v control_unit.v
+python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 ALU.v Branch_Comp.v DMEM.v IMEM.v Imm_Gen.v RISCV_Single_Cycle.v RegisterFile.v control_unit.v
+Kết quả Pass khi xuất hiện dòng:
 
 sql
 Sao chép
 Chỉnh sửa
 🎉 All memory contents match golden output! All tests passed.
-Nếu sai:
+Nếu có lỗi/mismatch, kiểm tra file log chi tiết tại:
 
-sql
-Sao chép
-Chỉnh sửa
-❗ PC mismatch at cycle X: DUT = ..., Golden = ...
-❗ xY mismatch at cycle X: DUT = ..., Golden = ...
-❗ Dmem[Z] mismatch at cycle X: DUT = ..., Golden = ...
-7. Ghi chú mở rộng
-Code template đã hỗ trợ lệnh cơ bản (add, sub, and, or, lw, sw, beq, bne, slt...).
+/tmp/grade_<tên_user>/sim.log
 
-Có thể mở rộng thêm lệnh nếu test yêu cầu.
+🛠️ Mô tả module
+ALU.v
 
-Nếu dùng Icarus hoặc Verilator gặp lỗi với output array, cần sửa lại interface thành từng phần tử hoặc dùng generate.
-=======
-# RISCV_Single_Cycle
-RISCV_Single_Cycle
+Thực hiện các phép cộng, trừ, and, or, xor, shift, so sánh nhỏ hơn (signed & unsigned).
 
+control_unit.v
+
+Giải mã opcode, funct3, funct7 → phát tín hiệu điều khiển các khối.
+
+Mapping đủ SLT, SLTU, SLTI, SLTIU (so sánh có dấu/không dấu).
+
+RegisterFile.v
+
+32 thanh ghi, x0 luôn bằng 0, chỉ ghi khi RegWrite, reset đồng bộ.
+
+Imm_Gen.v
+
+Sinh & sign-extend giá trị Immediate theo đúng chuẩn RISC-V cho I/S/B/J-type.
+
+DMEM/IMEM.v
+
+Bộ nhớ đồng bộ, có thể load bằng $readmemh từ file test.
+
+Branch_Comp.v
+
+Xử lý điều kiện nhánh (bằng, khác, nhỏ hơn, lớn hơn - signed/unsigned).
+
+RISCV_Single_Cycle.v
+
+Kết nối toàn bộ datapath + control.
+
+🏆 Đặc điểm nổi bật
+
+Hỗ trợ đầy đủ các lệnh cơ bản RV32I (R/I/S/B-type).
+
+Hoạt động đúng chuẩn, pass toàn bộ test trường.
+
+Tách module chuyên nghiệp, dễ mở rộng thành pipeline/FPGA/SoC.
+
+📈 Datapath tổng quát
+
+Instruction -->[IMEM]-->[Control + ImmGen + RegFile + ALU + DMEM]--> Kết quả
+
+📚 Mở rộng / Tuỳ biến
+
+Có thể mở rộng thêm JAL, JALR, LUI, AUIPC nếu cần.
+
+Có thể dùng làm nền tảng cho project CPU pipeline, FPGA, mô phỏng cao hơn.
