@@ -1,11 +1,11 @@
 module Branch_Comp(
-    input  logic [31:0] A,
-    input  logic [31:0] B,
-    input  logic        Branch,
-    input  logic [2:0]  funct3,
-    output logic        BrTaken
+    input [31:0] A,
+    input [31:0] B,
+    input Branch,
+    input [2:0] funct3,
+    output reg BrTaken
 );
-    always_comb begin
+    always @* begin
         if (!Branch) BrTaken = 0;
         else case (funct3)
             3'b000: BrTaken = (A == B); // beq

@@ -1,16 +1,16 @@
 module control_unit(
-    input  logic [6:0] opcode,
-    input  logic [2:0] funct3,
-    input  logic [6:0] funct7,
-    output logic       ALUSrc,
-    output logic [3:0] ALUOp,
-    output logic       Branch,
-    output logic       MemRead,
-    output logic       MemWrite,
-    output logic       MemToReg,
-    output logic       RegWrite
+    input [6:0] opcode,
+    input [2:0] funct3,
+    input [6:0] funct7,
+    output reg ALUSrc,
+    output reg [3:0] ALUOp,
+    output reg Branch,
+    output reg MemRead,
+    output reg MemWrite,
+    output reg MemToReg,
+    output reg RegWrite
 );
-    always_comb begin
+    always @* begin
         ALUSrc   = 0;
         ALUOp    = 4'b0000;
         Branch   = 0;
@@ -26,8 +26,7 @@ module control_unit(
                 MemRead  = 0;
                 MemWrite = 0;
                 Branch   = 0;
-                // ALU Control
-                unique case ({funct7, funct3})
+                case ({funct7, funct3})
                     {7'b0000000,3'b000}: ALUOp = 4'b0000; // add
                     {7'b0100000,3'b000}: ALUOp = 4'b0001; // sub
                     {7'b0000000,3'b111}: ALUOp = 4'b0010; // and
@@ -47,7 +46,7 @@ module control_unit(
                 MemRead  = 0;
                 MemWrite = 0;
                 Branch   = 0;
-                unique case (funct3)
+                case (funct3)
                     3'b000: ALUOp = 4'b0000; // addi
                     3'b111: ALUOp = 4'b0010; // andi
                     3'b110: ALUOp = 4'b0011; // ori

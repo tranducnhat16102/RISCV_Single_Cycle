@@ -1,11 +1,11 @@
 module ALU(
-    input  logic [31:0] A,
-    input  logic [31:0] B,
-    input  logic [3:0]  ALUOp,
-    output logic [31:0] Result,
-    output logic Zero
+    input [31:0] A,
+    input [31:0] B,
+    input [3:0]  ALUOp,
+    output reg [31:0] Result,
+    output Zero
 );
-    always_comb begin
+    always @* begin
         case (ALUOp)
             4'b0000: Result = A + B;    // ADD
             4'b0001: Result = A - B;    // SUB

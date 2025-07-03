@@ -1,35 +1,35 @@
 module RISCV_Single_Cycle(
-    input  logic clk,
-    input  logic rst_n,
-    output logic [31:0] PC_out_top,
-    output logic [31:0] Instruction_out_top
+    input clk,
+    input rst_n,
+    output reg [31:0] PC_out_top,
+    output wire [31:0] Instruction_out_top
 );
-    logic [31:0] PC_next;
+    reg [31:0] PC_next;
 
-    // Wires for instruction fields
-    logic [4:0] rs1, rs2, rd;
-    logic [2:0] funct3;
-    logic [6:0] opcode, funct7;
+    // Instruction field wires
+    wire [4:0] rs1, rs2, rd;
+    wire [2:0] funct3;
+    wire [6:0] opcode, funct7;
 
     // Immediate value
-    logic [31:0] Imm;
+    wire [31:0] Imm;
 
     // Register file wires
-    logic [31:0] ReadData1, ReadData2, WriteData;
+    wire [31:0] ReadData1, ReadData2, WriteData;
 
     // ALU
-    logic [31:0] ALU_in2, ALU_result;
-    logic ALUZero;
+    wire [31:0] ALU_in2, ALU_result;
+    wire ALUZero;
 
     // Data Memory
-    logic [31:0] MemReadData;
+    wire [31:0] MemReadData;
 
     // Control signals
-    logic        ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, PCSel;
-    logic [3:0]  ALUCtrl;
+    wire ALUSrc, MemToReg, RegWrite, MemRead, MemWrite, Branch, PCSel;
+    wire [3:0] ALUCtrl;
 
     // PC update
-    always_ff @(posedge clk or negedge rst_n) begin
+    always @(posedge clk or negedge rst_n) begin
         if (!rst_n)
             PC_out_top <= 0;
         else
@@ -37,10 +37,11 @@ module RISCV_Single_Cycle(
     end
 
     // Instruction Memory
+    wire [31:0] imem_memory [0:255];
     IMEM IMEM_inst(
         .addr(PC_out_top),
         .Instruction(Instruction_out_top),
-        .memory() // expose for TB
+        .memory(imem_memory)
     );
 
     // Instruction decode
@@ -57,8 +58,8 @@ module RISCV_Single_Cycle(
         .imm_out(Imm)
     );
 
-    // Register File (must be Reg_inst for TB)
-    logic [31:0] registers [0:31];
+    // Register File
+    wire [31:0] regfile_memory [0:31];
     RegisterFile Reg_inst(
         .clk(clk),
         .rst_n(rst_n),
@@ -69,7 +70,7 @@ module RISCV_Single_Cycle(
         .WriteData(WriteData),
         .ReadData1(ReadData1),
         .ReadData2(ReadData2),
-        .registers(registers)
+        .registers(regfile_memory)
     );
 
     // ALU input selection
@@ -85,7 +86,7 @@ module RISCV_Single_Cycle(
     );
 
     // Data Memory
-    logic [31:0] memory [0:255];
+    wire [31:0] dmem_memory [0:255];
     DMEM DMEM_inst(
         .clk(clk),
         .rst_n(rst_n),
@@ -94,7 +95,7 @@ module RISCV_Single_Cycle(
         .addr(ALU_result),
         .WriteData(ReadData2),
         .ReadData(MemReadData),
-        .memory(memory)
+        .memory(dmem_memory)
     );
 
     // Write-back mux
